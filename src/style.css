@@ -1,9 +1,37 @@
-.icon {
-  width: 320px;
-  vertical-align: top;
+.monster-flexbox {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 1rem;
 }
 
-.monster {
+#monster {
   border: 0;
   background-color: rgba(0, 0, 0, 0);
+  display: block;
+  max-width: 90vw;
+  height: auto;
+}
+
+#xp {
+  font-family: "Trebuchet MS";
+  font-size: 200%;
+}
+
+.monster-wrapper {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+#xp {
+  position: absolute;
+  top: -2.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.1em 0.4em;
 }
