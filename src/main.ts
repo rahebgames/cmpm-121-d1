@@ -3,4 +3,5 @@ import "./style.css";
 
 document.body.innerHTML = `
   <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
+  <button class="main button" type="button">Click Me</button>
 `;
