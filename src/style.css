@@ -1,5 +1,9 @@
 .icon {
-  width: 64px;
+  width: 320px;
   vertical-align: top;
-  border: 1px solid salmon;
+}
+
+.monster {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0);
 }
