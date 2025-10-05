@@ -3,5 +3,5 @@ import "./style.css";
 
 // <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 document.body.innerHTML = `
-  <button class="main button" type="button">Click Me</button>
+  <button class="main button" type="button">👹</button>
 `;
