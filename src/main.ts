@@ -8,15 +8,21 @@ document.body.innerHTML = `
   <div class="monster-flexbox">
     <div class="monster-wrapper">
       <p id="xp">XP: <span id="counter">0</span></p>
-      <button id="monster" type="button"><img src="${eggSprite}" class="icon" /></button>
+      <button id="monster-button" type="button"><img src="${eggSprite}" class="icon" /></button>
     </div>
   </div>
 `;
 
-const monster = document.getElementById("monster")!;
-const counterElement = document.getElementById("counter")!;
+const MONSTER = document.getElementById("monster-button")!;
+const COUNTER_ELEMENT = document.getElementById("counter")!;
+const _INTERVAL_ID = setInterval(autoClick, 1000);
 
-monster.addEventListener("click", () => {
+MONSTER.addEventListener("click", () => {
   xp += 1;
-  counterElement.innerHTML = String(xp);
+  COUNTER_ELEMENT.innerHTML = String(xp);
 });
+
+function autoClick() {
+  xp += 1;
+  COUNTER_ELEMENT.innerHTML = String(xp);
+}

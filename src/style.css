@@ -9,17 +9,12 @@
   padding: 1rem;
 }
 
-#monster {
+#monster-button {
   border: 0;
   background-color: rgba(0, 0, 0, 0);
   display: block;
   max-width: 90vw;
   height: auto;
-}
-
-#xp {
-  font-family: "Trebuchet MS";
-  font-size: 200%;
 }
 
 .monster-wrapper {
@@ -29,6 +24,8 @@
 }
 
 #xp {
+  font-family: "Trebuchet MS";
+  font-size: 200%;
   position: absolute;
   top: -2.7em;
   left: 50%;
