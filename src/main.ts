@@ -15,14 +15,22 @@ document.body.innerHTML = `
 
 const MONSTER = document.getElementById("monster-button")!;
 const COUNTER_ELEMENT = document.getElementById("counter")!;
-const _INTERVAL_ID = setInterval(autoClick, 1000);
+
+requestAnimationFrame(autoClick);
 
 MONSTER.addEventListener("click", () => {
   xp += 1;
   COUNTER_ELEMENT.innerHTML = String(xp);
 });
 
-function autoClick() {
-  xp += 1;
-  COUNTER_ELEMENT.innerHTML = String(xp);
+let lastTimestamp: number | null = null;
+function autoClick(timestamp: DOMHighResTimeStamp) {
+  if (lastTimestamp == null) lastTimestamp = timestamp;
+
+  const DELTA_SECONDS = (timestamp - lastTimestamp) / 1000;
+  xp += DELTA_SECONDS;
+  COUNTER_ELEMENT.innerHTML = xp.toFixed(2);
+
+  lastTimestamp = timestamp;
+  requestAnimationFrame(autoClick);
 }
