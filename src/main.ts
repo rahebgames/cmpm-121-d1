@@ -6,33 +6,73 @@ let xp: number = 0;
 let growth_rate: number = 0;
 const UPGRADES: Upgrade[] = [];
 
-class Upgrade {
+interface Item {
+  name: string;
+  cost: number;
+  growth_rate: number;
+  button_id: string;
+  amount_id: string;
+}
+
+const AVAILABLE_ITEMS: Item[] = [
+  {
+    name: "Boxer",
+    cost: 10,
+    growth_rate: 0.1,
+    button_id: "boxer",
+    amount_id: "boxer-amount",
+  },
+  {
+    name: "Swordsman",
+    cost: 100,
+    growth_rate: 2,
+    button_id: "swordsman",
+    amount_id: "swordsman-amount",
+  },
+  {
+    name: "Archer",
+    cost: 1000,
+    growth_rate: 50,
+    button_id: "archer",
+    amount_id: "archer-amount",
+  },
+];
+
+class Upgrade implements Item {
   name: string;
   cost: number;
   growth_rate: number;
   amount: number = 0;
 
-  buttonElement: HTMLButtonElement | null = null;
-  amountElement: HTMLSpanElement | null = null;
+  button_id: string;
+  amount_id: string;
+  buttonElement: HTMLButtonElement;
+  amountElement: HTMLSpanElement;
 
-  constructor(name: string, cost: number, growth_rate: number) {
-    this.name = name;
-    this.cost = cost;
-    this.growth_rate = growth_rate;
+  constructor(item: Item) {
+    this.name = item.name;
+    this.cost = item.cost;
+    this.growth_rate = item.growth_rate;
+
+    this.button_id = item.button_id;
+    this.amount_id = item.amount_id;
+
+    this.buttonElement = document.getElementById(
+      this.button_id,
+    ) as HTMLButtonElement;
+    this.amountElement = document.getElementById(
+      this.amount_id,
+    ) as HTMLSpanElement;
   }
 
   public buy() {
     xp -= this.cost;
     this.amount++;
     this.cost = Math.floor(this.cost * 1.15);
-    this.buttonElement!.innerHTML = `Hire ${this.name}: ${this.cost}`;
-    this.amountElement!.textContent = `x${this.amount}`;
+    this.buttonElement.innerHTML = `Hire ${this.name}: ${this.cost}`;
+    this.amountElement.textContent = `x${this.amount}`;
   }
 }
-
-UPGRADES.push(new Upgrade("Boxer", 10, 0.1));
-UPGRADES.push(new Upgrade("Swordsman", 100, 2.0));
-UPGRADES.push(new Upgrade("Archer", 1000, 50));
 
 document.body.innerHTML = `
   <div class="app">
@@ -44,53 +84,37 @@ document.body.innerHTML = `
       </div>
     </main>
 
-    <aside class="sidebar">
-      <div class="upgrade-wrapper">
-        <span class="upgrade-amount" id="boxer-amount">x0</span>
-        <button class="upgrade" id="boxer">Hire Boxer: ${
-  UPGRADES[0].cost
-}</button>
-      </div>
-      <div class="upgrade-wrapper">
-        <span class="upgrade-amount" id="swordsman-amount">x0</span>
-        <button class="upgrade" id="swordsman">Hire Swordsman: ${
-  UPGRADES[1].cost
-}</button>
-      </div>
-      <div class="upgrade-wrapper">
-        <span class="upgrade-amount" id="archer-amount">x0</span>
-        <button class="upgrade" id="archer">Hire Archer: ${
-  UPGRADES[2].cost
-}</button>
-      </div>
-    </aside>
+    <aside class="sidebar"></aside>
   </div>
 `;
+
+const SIDEBAR = document.querySelector(".sidebar") as HTMLElement;
+
+for (const ITEM of AVAILABLE_ITEMS) {
+  const DIV = document.createElement("div");
+  DIV.classList.add("upgrade-wrapper");
+
+  const SPAN = document.createElement("span");
+  SPAN.classList.add("upgrade-amount");
+  SPAN.id = ITEM.amount_id;
+  SPAN.innerHTML = "x0";
+  DIV.appendChild(SPAN);
+
+  const BUTTON = document.createElement("button");
+  BUTTON.classList.add("upgrade");
+  BUTTON.id = ITEM.button_id;
+  BUTTON.innerHTML = `Hire ${ITEM.name}: ${ITEM.cost}`;
+  DIV.appendChild(BUTTON);
+
+  SIDEBAR.appendChild(DIV);
+
+  UPGRADES.push(new Upgrade(ITEM));
+}
 
 const MONSTER = document.getElementById("monster-button")! as HTMLButtonElement;
 const COUNTER_ELEMENT = document.getElementById("counter")! as HTMLSpanElement;
 const GROWTH_RATE_ELEMENT = document.getElementById(
   "growth-rate",
-)! as HTMLSpanElement;
-
-UPGRADES[0].buttonElement = document.getElementById(
-  "boxer",
-)! as HTMLButtonElement;
-UPGRADES[1].buttonElement = document.getElementById(
-  "swordsman",
-)! as HTMLButtonElement;
-UPGRADES[2].buttonElement = document.getElementById(
-  "archer",
-)! as HTMLButtonElement;
-
-UPGRADES[0].amountElement = document.getElementById(
-  "boxer-amount",
-)! as HTMLSpanElement;
-UPGRADES[1].amountElement = document.getElementById(
-  "swordsman-amount",
-)! as HTMLSpanElement;
-UPGRADES[2].amountElement = document.getElementById(
-  "archer-amount",
 )! as HTMLSpanElement;
 
 requestAnimationFrame(autoClick);
@@ -101,7 +125,7 @@ MONSTER.addEventListener("click", () => {
 });
 
 for (const UPGRADE of UPGRADES) {
-  UPGRADE.buttonElement!.addEventListener("click", () => {
+  UPGRADE.buttonElement.addEventListener("click", () => {
     UPGRADE.buy();
   });
 }
@@ -111,12 +135,12 @@ function autoClick(timestamp: DOMHighResTimeStamp) {
   growth_rate = 0;
   for (const UPGRADE of UPGRADES) {
     if (xp >= UPGRADE.cost) {
-      UPGRADE.buttonElement!.disabled = false;
+      UPGRADE.buttonElement.disabled = false;
     } else {
-      UPGRADE.buttonElement!.disabled = true;
+      UPGRADE.buttonElement.disabled = true;
     }
 
-    UPGRADE.amountElement!.textContent = `x${UPGRADE.amount}`;
+    UPGRADE.amountElement.textContent = `x${UPGRADE.amount}`;
 
     growth_rate += UPGRADE.growth_rate * UPGRADE.amount;
   }
