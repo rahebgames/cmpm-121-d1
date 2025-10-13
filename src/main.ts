@@ -10,6 +10,8 @@ interface Item {
   name: string;
   cost: number;
   growth_rate: number;
+  description: string;
+
   button_id: string;
   amount_id: string;
 }
@@ -19,6 +21,9 @@ const AVAILABLE_ITEMS: Item[] = [
     name: "Boxer",
     cost: 10,
     growth_rate: 0.1,
+    description:
+      "An overconfident athlete that thinks punching a monster is going to accomplish something.",
+
     button_id: "boxer",
     amount_id: "boxer-amount",
   },
@@ -26,6 +31,8 @@ const AVAILABLE_ITEMS: Item[] = [
     name: "Swordsman",
     cost: 100,
     growth_rate: 2,
+    description: "Your basic foot soldier.",
+
     button_id: "swordsman",
     amount_id: "swordsman-amount",
   },
@@ -33,8 +40,28 @@ const AVAILABLE_ITEMS: Item[] = [
     name: "Archer",
     cost: 1000,
     growth_rate: 50,
+    description: "Those who would prefer to keep their distance.",
+
     button_id: "archer",
     amount_id: "archer-amount",
+  },
+  {
+    name: "Scythe",
+    cost: 10000,
+    growth_rate: 1000,
+    description: "Rule of cool prevails.",
+
+    button_id: "scythe",
+    amount_id: "scythe-amount",
+  },
+  {
+    name: "Mage",
+    cost: 100000,
+    growth_rate: 15000,
+    description: "When you can use magic, why use anything else?",
+
+    button_id: "mage",
+    amount_id: "mage-amount",
   },
 ];
 
@@ -42,6 +69,7 @@ class Upgrade implements Item {
   name: string;
   cost: number;
   growth_rate: number;
+  description: string;
   amount: number = 0;
 
   button_id: string;
@@ -53,6 +81,7 @@ class Upgrade implements Item {
     this.name = item.name;
     this.cost = item.cost;
     this.growth_rate = item.growth_rate;
+    this.description = item.description;
 
     this.button_id = item.button_id;
     this.amount_id = item.amount_id;
@@ -105,6 +134,27 @@ for (const ITEM of AVAILABLE_ITEMS) {
   BUTTON.id = ITEM.button_id;
   BUTTON.innerHTML = `Hire ${ITEM.name}: ${ITEM.cost}`;
   DIV.appendChild(BUTTON);
+
+  const TOOLTIP = document.createElement("div");
+  TOOLTIP.classList.add("upgrade-tooltip");
+  TOOLTIP.innerHTML =
+    `${ITEM.description} <br/><br/><strong>XP/s:</strong> ${ITEM.growth_rate}`;
+  DIV.appendChild(TOOLTIP);
+
+  DIV.addEventListener("mouseenter", () => {
+    const tooltipRect = TOOLTIP.getBoundingClientRect();
+    const margin = 8;
+    if (tooltipRect.top < margin) {
+      const shift = margin - tooltipRect.top;
+      const currentTop = parseFloat(getComputedStyle(TOOLTIP).top || "0");
+      const newTop = currentTop + shift;
+      TOOLTIP.style.top = `${newTop}px`;
+    }
+  });
+
+  DIV.addEventListener("mouseleave", () => {
+    TOOLTIP.style.top = "";
+  });
 
   SIDEBAR.appendChild(DIV);
 

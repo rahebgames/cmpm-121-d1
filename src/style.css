@@ -49,6 +49,38 @@
   gap: 0.25rem;
 }
 
+.upgrade-tooltip {
+  font-family: "Trebuchet MS";
+  display: none;
+  position: absolute;
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 90%;
+  color: #222;
+  max-width: 420px;
+  min-width: 200px;
+  padding: 0.6rem 0.9rem;
+  z-index: 20;
+}
+
+.upgrade-wrapper {
+  position: relative;
+}
+
+.upgrade-wrapper:hover .upgrade-tooltip {
+  display: block;
+}
+
+.upgrade-tooltip strong {
+  font-weight: 600;
+}
+
 .upgrade-amount {
   font-size: 130%;
   color: #333;
@@ -78,7 +110,6 @@
   top: -1.7em;
   left: 50%;
   transform: translateX(-50%);
-  /* padding: 0.1em 0.4em; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
