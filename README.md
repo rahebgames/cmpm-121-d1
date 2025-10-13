@@ -1,3 +1,10 @@
 # CMPM 121 D1 Project
 
-This is the starting point for your CMPM 121 D1 project. The goal of this project is to create a simple web application using TypeScript, Vite, and modern web development practices. Students should make sure to remove _this_ content from their README.md file and replace it with their own project documentation.
+An incremental game themed around defeating an evolving monster with an army. Currently meets all project requirements, but additional refinement is planned.
+
+## TODO
+
+- add game background
+- add upgrade button backgrounds and sprites
+- add units that spawn in for each purchase
+- add additional monster forms
