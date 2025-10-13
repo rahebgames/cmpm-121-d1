@@ -46,13 +46,13 @@ const AVAILABLE_ITEMS: Item[] = [
     amount_id: "archer-amount",
   },
   {
-    name: "Scythe",
+    name: "Reaper",
     cost: 10000,
     growth_rate: 1000,
     description: "Rule of cool prevails.",
 
-    button_id: "scythe",
-    amount_id: "scythe-amount",
+    button_id: "reaper",
+    amount_id: "reaper-amount",
   },
   {
     name: "Mage",
