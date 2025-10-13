@@ -19,6 +19,7 @@
 }
 
 .sidebar {
+  font-family: "Trebuchet MS";
   width: 280px;
   min-width: 200px;
   background: #f7f7f8;
@@ -41,6 +42,19 @@
   cursor: pointer;
 }
 
+.upgrade-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.upgrade-amount {
+  font-size: 130%;
+  color: #333;
+  margin-left: 0.25rem;
+}
+
 #monster-button {
   border: 0;
   background-color: rgba(0, 0, 0, 0);
@@ -51,7 +65,9 @@
 
 .monster-wrapper {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
@@ -59,12 +75,17 @@
   font-family: "Trebuchet MS";
   font-size: 200%;
   position: absolute;
-  top: -2.7em;
+  top: -1.7em;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.1em 0.4em;
+  /* padding: 0.1em 0.4em; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 90vw;
+}
+
+#growth-rate {
+  font-family: "Trebuchet MS";
+  font-size: 150%;
 }
