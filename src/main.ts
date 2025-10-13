@@ -24,9 +24,9 @@ class Upgrade {
   public buy() {
     xp -= this.cost;
     this.amount++;
-    this.cost = Math.floor(this.cost * 1.2);
+    this.cost = round(this.cost * 1.15, 2);
     this.buttonElement!.innerHTML = `Buy ${this.name}: ${this.cost}`;
-    if (this.amountElement) this.amountElement.textContent = `x${this.amount}`;
+    this.amountElement!.textContent = `x${this.amount}`;
   }
 }
 
