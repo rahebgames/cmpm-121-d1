@@ -3,40 +3,30 @@
     "name": "Boxer",
     "cost": 10,
     "growth_rate": 0.1,
-    "description": "An overconfident athlete that thinks punching a monster is going to accomplish something.",
-    "button_id": "boxer",
-    "amount_id": "boxer-amount"
+    "description": "An overconfident athlete that thinks punching a monster is going to accomplish something."
   },
   {
     "name": "Swordsman",
     "cost": 100,
     "growth_rate": 2,
-    "description": "Your basic foot soldier.",
-    "button_id": "swordsman",
-    "amount_id": "swordsman-amount"
+    "description": "Your basic foot soldier."
   },
   {
     "name": "Archer",
     "cost": 1000,
     "growth_rate": 50,
-    "description": "Those who would prefer to keep their distance.",
-    "button_id": "archer",
-    "amount_id": "archer-amount"
+    "description": "Those who would prefer to keep their distance."
   },
   {
     "name": "Reaper",
     "cost": 10000,
     "growth_rate": 1000,
-    "description": "Rule of cool prevails.",
-    "button_id": "reaper",
-    "amount_id": "reaper-amount"
+    "description": "Rule of cool prevails."
   },
   {
     "name": "Mage",
     "cost": 100000,
     "growth_rate": 15000,
-    "description": "When you can use magic, why use anything else?",
-    "button_id": "mage",
-    "amount_id": "mage-amount"
+    "description": "When you can use magic, why use anything else?"
   }
 ]

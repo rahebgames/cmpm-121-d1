@@ -12,9 +12,6 @@ interface Item {
   cost: number;
   growth_rate: number;
   description: string;
-
-  button_id: string;
-  amount_id: string;
 }
 
 const AVAILABLE_ITEMS: Item[] = [];
@@ -28,27 +25,21 @@ class Upgrade implements Item {
   growth_rate: number;
   description: string;
   amount: number = 0;
-
-  button_id: string;
-  amount_id: string;
   buttonElement: HTMLButtonElement;
   amountElement: HTMLSpanElement;
 
-  constructor(item: Item) {
+  constructor(
+    item: Item,
+    button_element: HTMLButtonElement,
+    amount_element: HTMLSpanElement,
+  ) {
     this.name = item.name;
     this.cost = item.cost;
     this.growth_rate = item.growth_rate;
     this.description = item.description;
 
-    this.button_id = item.button_id;
-    this.amount_id = item.amount_id;
-
-    this.buttonElement = document.getElementById(
-      this.button_id,
-    ) as HTMLButtonElement;
-    this.amountElement = document.getElementById(
-      this.amount_id,
-    ) as HTMLSpanElement;
+    this.buttonElement = button_element;
+    this.amountElement = amount_element;
   }
 
   public buy() {
@@ -82,13 +73,13 @@ for (const ITEM of AVAILABLE_ITEMS) {
 
   const SPAN = document.createElement("span");
   SPAN.classList.add("upgrade-amount");
-  SPAN.id = ITEM.amount_id;
+  SPAN.id = `${ITEM.name.toLowerCase()}-amount`;
   SPAN.innerHTML = "x0";
   DIV.appendChild(SPAN);
 
   const BUTTON = document.createElement("button");
   BUTTON.classList.add("upgrade");
-  BUTTON.id = ITEM.button_id;
+  BUTTON.id = ITEM.name.toLowerCase();
   BUTTON.innerHTML = `Hire ${ITEM.name}: ${ITEM.cost}`;
   DIV.appendChild(BUTTON);
 
@@ -115,7 +106,7 @@ for (const ITEM of AVAILABLE_ITEMS) {
 
   SIDEBAR.appendChild(DIV);
 
-  UPGRADES.push(new Upgrade(ITEM));
+  UPGRADES.push(new Upgrade(ITEM, BUTTON, SPAN));
 }
 
 const MONSTER = document.getElementById("monster-button")! as HTMLButtonElement;
