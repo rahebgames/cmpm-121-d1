@@ -1,5 +1,6 @@
 import eggSprite from "./sprites/egg.png";
 import "./style.css";
+import upgradesJson from "./upgrades.json" with { type: "json" };
 
 // main currency
 let xp: number = 0;
@@ -16,54 +17,10 @@ interface Item {
   amount_id: string;
 }
 
-const AVAILABLE_ITEMS: Item[] = [
-  {
-    name: "Boxer",
-    cost: 10,
-    growth_rate: 0.1,
-    description:
-      "An overconfident athlete that thinks punching a monster is going to accomplish something.",
-
-    button_id: "boxer",
-    amount_id: "boxer-amount",
-  },
-  {
-    name: "Swordsman",
-    cost: 100,
-    growth_rate: 2,
-    description: "Your basic foot soldier.",
-
-    button_id: "swordsman",
-    amount_id: "swordsman-amount",
-  },
-  {
-    name: "Archer",
-    cost: 1000,
-    growth_rate: 50,
-    description: "Those who would prefer to keep their distance.",
-
-    button_id: "archer",
-    amount_id: "archer-amount",
-  },
-  {
-    name: "Reaper",
-    cost: 10000,
-    growth_rate: 1000,
-    description: "Rule of cool prevails.",
-
-    button_id: "reaper",
-    amount_id: "reaper-amount",
-  },
-  {
-    name: "Mage",
-    cost: 100000,
-    growth_rate: 15000,
-    description: "When you can use magic, why use anything else?",
-
-    button_id: "mage",
-    amount_id: "mage-amount",
-  },
-];
+const AVAILABLE_ITEMS: Item[] = [];
+for (const ITEM of upgradesJson) {
+  AVAILABLE_ITEMS.push(ITEM);
+}
 
 class Upgrade implements Item {
   name: string;
