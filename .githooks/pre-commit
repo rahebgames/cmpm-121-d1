@@ -39,9 +39,31 @@ fi
 # Build check (ensures Vite can build the project)
 echo "🏗️ Testing build..."
 if ! deno task build; then
-    echo "❌ Build failed"
-    echo "Please fix build errors before committing"
-    exit 1
+    echo "⚠️ Build failed on this environment."
+    # If WSL is available, try running the build there as a fallback. This helps
+    # when Windows doesn't have platform-native optional dependencies installed
+    # but WSL has a working node_modules installation.
+    if command -v wsl >/dev/null 2>&1; then
+        echo "⚠️ Attempting build inside WSL..."
+        # get repository root (Windows-style path), fall back to current dir
+        repo_win_path="$(git rev-parse --show-toplevel 2>/dev/null || echo \"$PWD\")"
+        # convert Windows path like C:\Users\... to /mnt/c/Users/... and backslashes to slashes
+        wsl_path=$(echo "$repo_win_path" | sed -E 's#^([A-Za-z]):#\\/mnt\/\\L\\1#; s#\\\\#/#g')
+        # If the conversion produced an empty string for any reason, default to /mnt/c/ path heuristic
+        if [ -z "$wsl_path" ]; then
+            wsl_path="/mnt/c$(echo "$repo_win_path" | sed -E 's#^[A-Za-z]:##; s#\\\\#/#g')"
+        fi
+        if wsl sh -lc "cd \"$wsl_path\" && deno task build"; then
+            echo "✅ Build succeeded inside WSL."
+        else
+            echo "❌ Build failed inside WSL as well. Please fix build errors before committing"
+            exit 1
+        fi
+    else
+        echo "❌ Build failed"
+        echo "Please fix build errors before committing"
+        exit 1
+    fi
 fi
 
 echo "✅ All pre-commit checks passed!"
