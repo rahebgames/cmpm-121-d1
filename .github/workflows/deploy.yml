@@ -33,6 +33,14 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Run CI checks
         run: deno task ci
         env:
