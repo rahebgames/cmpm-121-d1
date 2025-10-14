@@ -47,11 +47,18 @@ if ! deno task build; then
         echo "⚠️ Attempting build inside WSL..."
         # get repository root (Windows-style path), fall back to current dir
         repo_win_path="$(git rev-parse --show-toplevel 2>/dev/null || echo \"$PWD\")"
-        # convert Windows path like C:\Users\... to /mnt/c/Users/... and backslashes to slashes
-        wsl_path=$(echo "$repo_win_path" | sed -E 's#^([A-Za-z]):#\\/mnt\/\\L\\1#; s#\\\\#/#g')
-        # If the conversion produced an empty string for any reason, default to /mnt/c/ path heuristic
-        if [ -z "$wsl_path" ]; then
-            wsl_path="/mnt/c$(echo "$repo_win_path" | sed -E 's#^[A-Za-z]:##; s#\\\\#/#g')"
+        # Try to use wslpath via wsl to convert the Windows path to a WSL path
+        wsl_path=""
+        if wsl wslpath -a "$repo_win_path" >/dev/null 2>&1; then
+            # Use wsl to perform a reliable path conversion
+            wsl_path=$(wsl wslpath -a "$repo_win_path")
+        else
+            # Fallback manual conversion: C:\path -> /mnt/c/path
+            drive_letter=$(echo "$repo_win_path" | sed -E 's#^([A-Za-z]):.*#\1#')
+            rest=$(echo "$repo_win_path" | sed -E 's#^[A-Za-z]:(.*)#\1#')
+            drive_lower=$(echo "$drive_letter" | tr '[:upper:]' '[:lower:]')
+            rest_unix=$(echo "$rest" | sed 's#\\\\#/#g')
+            wsl_path="/mnt/$drive_lower$rest_unix"
         fi
         if wsl sh -lc "cd \"$wsl_path\" && deno task build"; then
             echo "✅ Build succeeded inside WSL."
