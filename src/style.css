@@ -1,4 +1,15 @@
-.monster-flexbox {
+/* --- START GLOBALS --- */
+/* ----- whole app ----- */
+.app {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Trebuchet MS";
+}
+/* ---- END GLOBALS ---- */
+
+/* --------- START MAIN --------- */
+/* ------ main area of app ------ */
+.main {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -7,19 +18,48 @@
   min-height: 100vh;
   box-sizing: border-box;
   padding: 1rem;
-}
-
-.app {
-  display: flex;
-  min-height: 100vh;
-}
-
-.content {
   flex: 1 1 auto;
 }
 
+/* ---- START MONSTER ---- */
+/*  main button and labels */
+.monster-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#xp {
+  font-size: 200%;
+  position: absolute;
+  top: -1.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90vw;
+}
+
+#growth-rate {
+  font-size: 150%;
+}
+
+#monster-button {
+  border: 0;
+  background-color: rgba(0, 0, 0, 0);
+  display: block;
+  max-width: 90vw;
+  height: auto;
+}
+/* ----- END MONSTER ----- */
+/* ---------- END MAIN ---------- */
+
+/* ------- START SIDEBAR ------- */
+/* ----- area for upgrades ----- */
 .sidebar {
-  font-family: "Trebuchet MS";
   width: 280px;
   min-width: 200px;
   background: #f7f7f8;
@@ -33,15 +73,8 @@
   box-sizing: border-box;
 }
 
-.upgrade {
-  font-family: "Trebuchet MS";
-  font-size: 140%;
-  padding: 0.75rem 1rem;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
+/* ----- START BUTTONS ----- */
+/*  area for upgrade buttons */
 .upgrade-wrapper {
   display: flex;
   flex-direction: column;
@@ -49,8 +82,24 @@
   gap: 0.25rem;
 }
 
+.upgrade-amount {
+  font-size: 130%;
+  color: #333;
+  margin-left: 0.25rem;
+}
+
+.upgrade-button {
+  font-size: 140%;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+/* ------ END BUTTONS ------ */
+
+/* --- START TOOLTIP --- */
+/* -- appears on hover - */
 .upgrade-tooltip {
-  font-family: "Trebuchet MS";
   display: none;
   position: absolute;
   right: calc(100% + 8px);
@@ -69,10 +118,6 @@
   z-index: 20;
 }
 
-.upgrade-wrapper {
-  position: relative;
-}
-
 .upgrade-wrapper:hover .upgrade-tooltip {
   display: block;
 }
@@ -80,43 +125,5 @@
 .upgrade-tooltip strong {
   font-weight: 600;
 }
-
-.upgrade-amount {
-  font-size: 130%;
-  color: #333;
-  margin-left: 0.25rem;
-}
-
-#monster-button {
-  border: 0;
-  background-color: rgba(0, 0, 0, 0);
-  display: block;
-  max-width: 90vw;
-  height: auto;
-}
-
-.monster-wrapper {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-#xp {
-  font-family: "Trebuchet MS";
-  font-size: 200%;
-  position: absolute;
-  top: -1.7em;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90vw;
-}
-
-#growth-rate {
-  font-family: "Trebuchet MS";
-  font-size: 150%;
-}
+/* ---- END TOOLTIP ---- */
+/* -------- END SIDEBAR -------- */

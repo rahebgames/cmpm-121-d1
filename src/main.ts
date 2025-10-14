@@ -4,9 +4,13 @@ import upgradesJson from "./upgrades.json" with { type: "json" };
 
 // main currency
 let xp: number = 0;
+// overall growth rate
 let growth_rate: number = 0;
+
+// stores all item types as objects
 const UPGRADES: Upgrade[] = [];
 
+// data structure of upgradesJson
 interface Item {
   name: string;
   cost: number;
@@ -14,6 +18,8 @@ interface Item {
   description: string;
 }
 
+// parse upgradesJson into an array for use in
+//  creating sidebar elements
 const AVAILABLE_ITEMS: Item[] = [];
 for (const ITEM of upgradesJson) {
   AVAILABLE_ITEMS.push(ITEM);
@@ -53,7 +59,7 @@ class Upgrade implements Item {
 
 document.body.innerHTML = `
   <div class="app">
-    <main class="monster-flexbox content">
+    <main class="main">
       <div class="monster-wrapper">
         <p id="xp">XP: <span id="counter">0</span></p>
         <p id="growth-rate">per second: ${growth_rate}</p>
@@ -65,24 +71,29 @@ document.body.innerHTML = `
   </div>
 `;
 
+// create sidebar and populate with items based on
+//  data in upgradesJson
 const SIDEBAR = document.querySelector(".sidebar") as HTMLElement;
-
 for (const ITEM of AVAILABLE_ITEMS) {
+  // main div for upgrades
   const DIV = document.createElement("div");
   DIV.classList.add("upgrade-wrapper");
 
+  // shows amount of upgrades owned
   const SPAN = document.createElement("span");
   SPAN.classList.add("upgrade-amount");
   SPAN.id = `${ITEM.name.toLowerCase()}-amount`;
   SPAN.innerHTML = "x0";
   DIV.appendChild(SPAN);
 
+  // upgrade button
   const BUTTON = document.createElement("button");
-  BUTTON.classList.add("upgrade");
+  BUTTON.classList.add("upgrade-button");
   BUTTON.id = ITEM.name.toLowerCase();
   BUTTON.innerHTML = `Hire ${ITEM.name}: ${ITEM.cost}`;
   DIV.appendChild(BUTTON);
 
+  // tooltip on hover
   const TOOLTIP = document.createElement("div");
   TOOLTIP.classList.add("upgrade-tooltip");
   TOOLTIP.innerHTML =
@@ -109,34 +120,38 @@ for (const ITEM of AVAILABLE_ITEMS) {
   UPGRADES.push(new Upgrade(ITEM, BUTTON, SPAN));
 }
 
+// get important static elements from HTML
 const MONSTER = document.getElementById("monster-button")! as HTMLButtonElement;
 const COUNTER_ELEMENT = document.getElementById("counter")! as HTMLSpanElement;
 const GROWTH_RATE_ELEMENT = document.getElementById(
   "growth-rate",
 )! as HTMLSpanElement;
 
-requestAnimationFrame(autoClick);
-
+// main clicking logic
 MONSTER.addEventListener("click", () => {
   xp += 1;
   COUNTER_ELEMENT.innerHTML = String(xp);
 });
 
+// attach click logic to every upgrade button, which
+//  calls buy method
 for (const UPGRADE of UPGRADES) {
   UPGRADE.buttonElement.addEventListener("click", () => {
     UPGRADE.buy();
   });
 }
 
+// start main loop
+requestAnimationFrame(update);
+
+// main update loop, used for xp gain over time
 let lastTimestamp: number | null = null;
-function autoClick(timestamp: DOMHighResTimeStamp) {
+function update(timestamp: DOMHighResTimeStamp) {
   growth_rate = 0;
+
   for (const UPGRADE of UPGRADES) {
-    if (xp >= UPGRADE.cost) {
-      UPGRADE.buttonElement.disabled = false;
-    } else {
-      UPGRADE.buttonElement.disabled = true;
-    }
+    if (xp >= UPGRADE.cost) UPGRADE.buttonElement.disabled = false;
+    else UPGRADE.buttonElement.disabled = true;
 
     UPGRADE.amountElement.textContent = `x${UPGRADE.amount}`;
 
@@ -150,10 +165,10 @@ function autoClick(timestamp: DOMHighResTimeStamp) {
   GROWTH_RATE_ELEMENT.innerHTML = `per second: ${round(growth_rate, 1)}`;
 
   lastTimestamp = timestamp;
-  requestAnimationFrame(autoClick);
+  requestAnimationFrame(update);
 }
 
-// https://stackoverflow.com/a/7343013
+// Credit: https://stackoverflow.com/a/7343013
 function round(value: number, precision: number) {
   const MULTIPLIER = Math.pow(10, precision || 0);
   return Math.round(value * MULTIPLIER) / MULTIPLIER;
