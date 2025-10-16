@@ -105,9 +105,7 @@ for (const ITEM of AVAILABLE_ITEMS) {
     const margin = 8;
     if (tooltipRect.top < margin) {
       const shift = margin - tooltipRect.top;
-      const currentTop = parseFloat(getComputedStyle(TOOLTIP).top || "0");
-      const newTop = currentTop + shift;
-      TOOLTIP.style.top = `${newTop}px`;
+      TOOLTIP.style.top = `${shift}px`;
     }
   });
 
