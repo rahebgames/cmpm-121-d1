@@ -37,7 +37,7 @@ class Upgrade implements Item {
     currency -= this.cost;
     this.amount++;
     this.cost = Math.floor(this.cost * 1.15);
-    this.buttonElement.innerHTML = `Hire ${this.name}: ${this.cost}`;
+    this.buttonElement.textContent = `Hire ${this.name}: ${this.cost}`;
     this.amountElement.textContent = `x${this.amount}`;
   }
 }
@@ -89,20 +89,20 @@ for (const ITEM of AVAILABLE_ITEMS) {
   const SPAN = document.createElement("span");
   SPAN.classList.add("upgrade-amount");
   SPAN.id = `${ITEM.name.toLowerCase()}-amount`;
-  SPAN.innerHTML = "x0";
+  SPAN.textContent = "x0";
   DIV.appendChild(SPAN);
 
   // upgrade button
   const BUTTON = document.createElement("button");
   BUTTON.classList.add("upgrade-button");
   BUTTON.id = ITEM.name.toLowerCase();
-  BUTTON.innerHTML = `Hire ${ITEM.name}: ${ITEM.cost}`;
+  BUTTON.textContent = `Hire ${ITEM.name}: ${ITEM.cost}`;
   DIV.appendChild(BUTTON);
 
   // tooltip on hover
   const TOOLTIP = document.createElement("div");
   TOOLTIP.classList.add("upgrade-tooltip");
-  TOOLTIP.innerHTML =
+  TOOLTIP.textContent =
     `${ITEM.description} <br/><br/><strong>XP/s:</strong> ${ITEM.productionRate}`;
   DIV.appendChild(TOOLTIP);
 
@@ -136,7 +136,7 @@ const PRODUCTION_RATE_ELEMENT = document.getElementById(
 // main clicking logic
 MAIN_BUTTON.addEventListener("click", () => {
   currency += 1;
-  COUNTER_ELEMENT.innerHTML = String(currency);
+  COUNTER_ELEMENT.textContent = String(currency);
 });
 
 // attach click logic to every upgrade button, which
@@ -167,8 +167,10 @@ function update(timestamp: DOMHighResTimeStamp) {
   if (lastTimestamp == null) lastTimestamp = timestamp;
   const DELTA_SECONDS = (timestamp - lastTimestamp) / 1000;
   currency += DELTA_SECONDS * productionRate;
-  COUNTER_ELEMENT.innerHTML = String(Math.floor(currency));
-  PRODUCTION_RATE_ELEMENT.innerHTML = `per second: ${round(productionRate, 1)}`;
+  COUNTER_ELEMENT.textContent = String(Math.floor(currency));
+  PRODUCTION_RATE_ELEMENT.textContent = `per second: ${
+    round(productionRate, 1)
+  }`;
 
   lastTimestamp = timestamp;
   requestAnimationFrame(update);
