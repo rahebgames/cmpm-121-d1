@@ -42,6 +42,12 @@ class Upgrade implements Item {
   }
 }
 
+// Credit: https://stackoverflow.com/a/7343013
+function round(value: number, precision: number) {
+  const MULTIPLIER = Math.pow(10, precision || 0);
+  return Math.round(value * MULTIPLIER) / MULTIPLIER;
+}
+
 // main currency
 let xp: number = 0;
 // overall growth rate
@@ -164,10 +170,4 @@ function update(timestamp: DOMHighResTimeStamp) {
 
   lastTimestamp = timestamp;
   requestAnimationFrame(update);
-}
-
-// Credit: https://stackoverflow.com/a/7343013
-function round(value: number, precision: number) {
-  const MULTIPLIER = Math.pow(10, precision || 0);
-  return Math.round(value * MULTIPLIER) / MULTIPLIER;
 }
