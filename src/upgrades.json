@@ -2,31 +2,31 @@
   {
     "name": "Boxer",
     "cost": 10,
-    "growth_rate": 0.1,
+    "productionRate": 0.1,
     "description": "An overconfident athlete that thinks punching a monster is going to accomplish something."
   },
   {
     "name": "Swordsman",
     "cost": 100,
-    "growth_rate": 2,
+    "productionRate": 2,
     "description": "Your basic foot soldier."
   },
   {
     "name": "Archer",
     "cost": 1000,
-    "growth_rate": 50,
+    "productionRate": 50,
     "description": "Those who would prefer to keep their distance."
   },
   {
     "name": "Reaper",
     "cost": 10000,
-    "growth_rate": 1000,
+    "productionRate": 1000,
     "description": "Rule of cool prevails."
   },
   {
     "name": "Mage",
     "cost": 100000,
-    "growth_rate": 15000,
+    "productionRate": 15000,
     "description": "When you can use magic, why use anything else?"
   }
 ]

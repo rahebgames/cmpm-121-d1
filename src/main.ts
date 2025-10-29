@@ -6,14 +6,14 @@ import upgradesJson from "./upgrades.json" with { type: "json" };
 interface Item {
   name: string;
   cost: number;
-  growth_rate: number;
+  productionRate: number;
   description: string;
 }
 
 class Upgrade implements Item {
   name: string;
   cost: number;
-  growth_rate: number;
+  productionRate: number;
   description: string;
   amount: number = 0;
   buttonElement: HTMLButtonElement;
@@ -26,7 +26,7 @@ class Upgrade implements Item {
   ) {
     this.name = item.name;
     this.cost = item.cost;
-    this.growth_rate = item.growth_rate;
+    this.productionRate = item.productionRate;
     this.description = item.description;
 
     this.buttonElement = button_element;
@@ -34,7 +34,7 @@ class Upgrade implements Item {
   }
 
   public buy() {
-    xp -= this.cost;
+    currency -= this.cost;
     this.amount++;
     this.cost = Math.floor(this.cost * 1.15);
     this.buttonElement.innerHTML = `Hire ${this.name}: ${this.cost}`;
@@ -49,9 +49,9 @@ function round(value: number, precision: number) {
 }
 
 // main currency
-let xp: number = 0;
+let currency: number = 0;
 // overall growth rate
-let growth_rate: number = 0;
+let productionRate: number = 0;
 
 // stores all item types as objects
 const UPGRADES: Upgrade[] = [];
@@ -68,7 +68,7 @@ document.body.innerHTML = `
     <main class="main">
       <div class="monster-wrapper">
         <p id="xp">XP: <span id="counter">0</span></p>
-        <p id="growth-rate">per second: ${growth_rate}</p>
+        <p id="growth-rate">per second: ${productionRate}</p>
         <button id="monster-button" type="button"><img src="${eggSprite}" class="icon" /></button>
       </div>
     </main>
@@ -103,7 +103,7 @@ for (const ITEM of AVAILABLE_ITEMS) {
   const TOOLTIP = document.createElement("div");
   TOOLTIP.classList.add("upgrade-tooltip");
   TOOLTIP.innerHTML =
-    `${ITEM.description} <br/><br/><strong>XP/s:</strong> ${ITEM.growth_rate}`;
+    `${ITEM.description} <br/><br/><strong>XP/s:</strong> ${ITEM.productionRate}`;
   DIV.appendChild(TOOLTIP);
 
   DIV.addEventListener("mouseenter", () => {
@@ -125,16 +125,18 @@ for (const ITEM of AVAILABLE_ITEMS) {
 }
 
 // get important static elements from HTML
-const MONSTER = document.getElementById("monster-button")! as HTMLButtonElement;
+const MAIN_BUTTON = document.getElementById(
+  "monster-button",
+)! as HTMLButtonElement;
 const COUNTER_ELEMENT = document.getElementById("counter")! as HTMLSpanElement;
-const GROWTH_RATE_ELEMENT = document.getElementById(
+const PRODUCTION_RATE_ELEMENT = document.getElementById(
   "growth-rate",
 )! as HTMLSpanElement;
 
 // main clicking logic
-MONSTER.addEventListener("click", () => {
-  xp += 1;
-  COUNTER_ELEMENT.innerHTML = String(xp);
+MAIN_BUTTON.addEventListener("click", () => {
+  currency += 1;
+  COUNTER_ELEMENT.innerHTML = String(currency);
 });
 
 // attach click logic to every upgrade button, which
@@ -151,22 +153,22 @@ requestAnimationFrame(update);
 // main update loop, used for xp gain over time
 let lastTimestamp: number | null = null;
 function update(timestamp: DOMHighResTimeStamp) {
-  growth_rate = 0;
+  productionRate = 0;
 
   for (const UPGRADE of UPGRADES) {
-    if (xp >= UPGRADE.cost) UPGRADE.buttonElement.disabled = false;
+    if (currency >= UPGRADE.cost) UPGRADE.buttonElement.disabled = false;
     else UPGRADE.buttonElement.disabled = true;
 
     UPGRADE.amountElement.textContent = `x${UPGRADE.amount}`;
 
-    growth_rate += UPGRADE.growth_rate * UPGRADE.amount;
+    productionRate += UPGRADE.productionRate * UPGRADE.amount;
   }
 
   if (lastTimestamp == null) lastTimestamp = timestamp;
   const DELTA_SECONDS = (timestamp - lastTimestamp) / 1000;
-  xp += DELTA_SECONDS * growth_rate;
-  COUNTER_ELEMENT.innerHTML = String(Math.floor(xp));
-  GROWTH_RATE_ELEMENT.innerHTML = `per second: ${round(growth_rate, 1)}`;
+  currency += DELTA_SECONDS * productionRate;
+  COUNTER_ELEMENT.innerHTML = String(Math.floor(currency));
+  PRODUCTION_RATE_ELEMENT.innerHTML = `per second: ${round(productionRate, 1)}`;
 
   lastTimestamp = timestamp;
   requestAnimationFrame(update);
