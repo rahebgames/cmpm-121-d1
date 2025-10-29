@@ -2,27 +2,12 @@ import eggSprite from "./sprites/egg.png";
 import "./style.css";
 import upgradesJson from "./upgrades.json" with { type: "json" };
 
-// main currency
-let xp: number = 0;
-// overall growth rate
-let growth_rate: number = 0;
-
-// stores all item types as objects
-const UPGRADES: Upgrade[] = [];
-
 // data structure of upgradesJson
 interface Item {
   name: string;
   cost: number;
   growth_rate: number;
   description: string;
-}
-
-// parse upgradesJson into an array for use in
-//  creating sidebar elements
-const AVAILABLE_ITEMS: Item[] = [];
-for (const ITEM of upgradesJson) {
-  AVAILABLE_ITEMS.push(ITEM);
 }
 
 class Upgrade implements Item {
@@ -55,6 +40,21 @@ class Upgrade implements Item {
     this.buttonElement.innerHTML = `Hire ${this.name}: ${this.cost}`;
     this.amountElement.textContent = `x${this.amount}`;
   }
+}
+
+// main currency
+let xp: number = 0;
+// overall growth rate
+let growth_rate: number = 0;
+
+// stores all item types as objects
+const UPGRADES: Upgrade[] = [];
+
+// parse upgradesJson into an array for use in
+//  creating sidebar elements
+const AVAILABLE_ITEMS: Item[] = [];
+for (const ITEM of upgradesJson) {
+  AVAILABLE_ITEMS.push(ITEM);
 }
 
 document.body.innerHTML = `
