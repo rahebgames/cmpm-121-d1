@@ -5,6 +5,7 @@ An incremental game themed around defeating an evolving monster with an army. Cu
 ## CREDIT
 
 <https://github.com/mlau16/cmpm-121-f25-d1/tree/main> for inspiring adding audio on click
+<https://github.com/Pl0the/cmpm-121-f25-d1-autmendo> for inspiring background image
 
 ## TODO
 

@@ -1,5 +1,6 @@
-import punchSoundURL from "./sounds/swingSFX.mp3";
 import eggSprite from "./sprites/egg.png";
+//import bgSprite from "./sprites/background.png";
+import punchSoundURL from "./sounds/swingSFX.mp3";
 import "./style.css";
 import upgradesJson from "./upgrades.json" with { type: "json" };
 
@@ -105,7 +106,7 @@ for (const ITEM of AVAILABLE_ITEMS) {
   // tooltip on hover
   const TOOLTIP = document.createElement("div");
   TOOLTIP.classList.add("upgrade-tooltip");
-  TOOLTIP.textContent =
+  TOOLTIP.innerHTML =
     `${ITEM.description} <br/><br/><strong>XP/s:</strong> ${ITEM.productionRate}`;
   DIV.appendChild(TOOLTIP);
 
