@@ -1,3 +1,4 @@
+import punchSoundURL from "./sounds/swingSFX.mp3";
 import eggSprite from "./sprites/egg.png";
 import "./style.css";
 import upgradesJson from "./upgrades.json" with { type: "json" };
@@ -62,6 +63,8 @@ const AVAILABLE_ITEMS: Item[] = [];
 for (const ITEM of upgradesJson) {
   AVAILABLE_ITEMS.push(ITEM);
 }
+
+const PUNCH_SOUND = new Audio(punchSoundURL);
 
 document.body.innerHTML = `
   <div class="app">
@@ -137,6 +140,10 @@ const PRODUCTION_RATE_ELEMENT = document.getElementById(
 MAIN_BUTTON.addEventListener("click", () => {
   currency += 1;
   COUNTER_ELEMENT.textContent = String(currency);
+
+  // credit: https://github.com/mlau16/cmpm-121-f25-d1/tree/main
+  PUNCH_SOUND.currentTime = 0;
+  PUNCH_SOUND.play();
 });
 
 // attach click logic to every upgrade button, which

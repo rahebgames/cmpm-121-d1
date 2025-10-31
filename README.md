@@ -2,6 +2,10 @@
 
 An incremental game themed around defeating an evolving monster with an army. Currently meets all project requirements, but additional refinement is planned.
 
+## CREDIT
+
+<https://github.com/mlau16/cmpm-121-f25-d1/tree/main> for inspiring adding audio on click
+
 ## TODO
 
 - add game background
